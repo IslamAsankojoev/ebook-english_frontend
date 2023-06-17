@@ -2,17 +2,9 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { CONFIG } from '@/api/config';
 import { AuthService } from '@/api/auth.service';
+import { IUser } from '@/api/user.service';
 
 export type IToken = {
-  access: string;
-  refresh: string;
-};
-
-type IUser = {
-  id: string;
-  email: string;
-  username: string;
-  is_author: boolean;
   access: string;
   refresh: string;
 };
@@ -35,7 +27,10 @@ export default NextAuth({
       },
       async authorize(credentials) {
         if (credentials) {
-          const data = await AuthService.login(credentials.username, credentials.password);
+          const data = await AuthService.login({
+            username: credentials.username,
+            password: credentials.password,
+          });
 
           if (data) {
             return {
@@ -59,9 +54,9 @@ export default NextAuth({
     maxAge: 24 * 60 * 60 * 1, // 1 day
   },
   pages: {
-    signIn: CONFIG.BASE_URL,
-    signOut: CONFIG.BASE_URL,
-    error: CONFIG.BASE_URL,
+    signIn: '/login',
+    signOut: '/login',
+    error: '/login',
   },
   callbacks: {
     async signIn() {
@@ -70,7 +65,9 @@ export default NextAuth({
     // @ts-ignore
     async jwt({ token, user }: { token: IToken; user: IUser }) {
       if (user) {
+        // @ts-ignore
         token.access = user.access;
+        // @ts-ignore
         token.refresh = user.refresh;
         // @ts-ignore
         token.email = user.email;
@@ -78,8 +75,6 @@ export default NextAuth({
         token.username = user.username;
         // @ts-ignore
         token.id = user.id;
-        // @ts-ignore
-        token.is_author = user.is_author;
       }
       return token;
     },

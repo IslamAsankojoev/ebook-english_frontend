@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react';
 
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false });
 
-const AuthProvider: FC<any> = ({ children, Component: { is_auth, is_author, is_not_auth } }) => {
+const AuthProvider: FC<any> = ({ children, Component: { is_auth, is_teacher, is_not_auth } }) => {
   const { pathname, asPath } = useRouter();
 
   const { data: session, status } = useSession();
@@ -29,11 +29,11 @@ const AuthProvider: FC<any> = ({ children, Component: { is_auth, is_author, is_n
     })();
   }, [pathname, asPath, is_auth, isAuth]);
 
-  return !is_auth && !is_author && !is_not_auth ? (
+  return !is_auth && !is_teacher && !is_not_auth ? (
     <>{children}</>
   ) : (
     <>
-      <DynamicCheckRole Component={{ is_auth, is_author, is_not_auth }}>
+      <DynamicCheckRole Component={{ is_auth, is_teacher, is_not_auth }}>
         {children}
       </DynamicCheckRole>
     </>

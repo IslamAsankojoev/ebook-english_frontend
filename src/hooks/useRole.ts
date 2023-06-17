@@ -5,9 +5,9 @@ const useRole = () => {
   const { data, status } = useTypedSession();
   const isNotAuth = status === 'unauthenticated';
   const isAuth = status === 'authenticated';
-  const isAuthor = data?.user?.is_author;
+  const isTeacher = data?.user?.is_teacher;
 
-  return { isNotAuth, isAuth, isAuthor, status };
+  return { isNotAuth, isAuth, isTeacher, status };
 };
 
 export default useRole;

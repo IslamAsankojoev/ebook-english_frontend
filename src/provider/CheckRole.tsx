@@ -6,7 +6,7 @@ import { FC, memo, useMemo } from 'react';
 const CheckRole: FC<{
   children: JSX.Element;
   Component: TypeComponentAuthFields['Component'];
-}> = ({ children, Component: { is_auth, is_not_auth, is_author } }) => {
+}> = ({ children, Component: { is_auth, is_not_auth, is_teacher } }) => {
   const router = useRouter();
 
   const { data, status } = useTypedSession();
@@ -14,20 +14,20 @@ const CheckRole: FC<{
 
   const isAuth = status === 'authenticated';
   const isNotAuth = status === 'unauthenticated';
-  const isAuthor = data?.user?.is_author;
-  const isNotAuthor = !data?.user?.is_author;
+  const isAuthor = data?.user?.is_teacher;
+  const isNotAuthor = !data?.user?.is_teacher;
 
   // const MemizeComponent = useMemo(() => memo(Children), [children]);
 
   if (is_auth && isAuth) return <Children />;
   if (is_not_auth && isNotAuth) return <Children />;
-  if (is_author && isAuthor) return <Children />;
+  if (is_teacher && isAuthor) return <Children />;
 
   if (is_auth && isAuth) return <Children />;
-  if (is_author && isAuth) return <Children />;
+  if (is_teacher && isAuth) return <Children />;
 
   if (is_not_auth && isNotAuth) return <Children />;
-  if (is_author && isAuthor) return <Children />;
+  if (is_teacher && isAuthor) return <Children />;
 
   if (is_auth && isNotAuth) {
     router.push('/login');
@@ -37,7 +37,7 @@ const CheckRole: FC<{
     router.push('/');
     return null;
   }
-  if (is_author && isNotAuthor) {
+  if (is_teacher && isNotAuthor) {
     router.push('/');
     return null;
   }

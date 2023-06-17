@@ -13,7 +13,7 @@ const useTypedSession = () => {
         id: number;
         email: string;
         username: string;
-        is_author: boolean;
+        is_teacher: boolean;
       };
     };
     status: 'authenticated' | 'unauthenticated' | 'loading';

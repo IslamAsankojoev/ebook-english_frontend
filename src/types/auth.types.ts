@@ -8,7 +8,7 @@ type getLayout = (page: ReactNode) => ReactNode;
 export type TypeRoles = {
   is_auth?: boolean;
   is_not_auth?: boolean;
-  is_author?: boolean;
+  is_teacher?: boolean;
 };
 
 type OtherTypes = {

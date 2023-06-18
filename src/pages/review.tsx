@@ -2,12 +2,13 @@ import { IReview, ReviewService } from '@/api/review.service';
 import { IUser } from '@/api/user.service';
 import Layout from '@/components/Layout';
 import useTypedSession from '@/hooks/useTypedSession';
+import { NextPageAuth } from '@/types/auth.types';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 
-const Review = () => {
+const Review: NextPageAuth = () => {
   const { data: session } = useTypedSession();
   const { data: reviews, refetch } = useQuery('reviews', ReviewService.findAll, {
     select: (data: IReview[]) => data,
@@ -71,15 +72,17 @@ const Review = () => {
                   {...field}
                   label="Введите сообщение..."
                   variant="outlined"
-                  sx={{ marginBottom: '20px' }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '20px',
+                      marginBottom: '20px',
+                      border: 'none',
+                      backgroundColor: '#DCDCDC',
+                    },
+                  }}
                   multiline
                   rows={4}
                   fullWidth
-                  style={{
-                    backgroundColor: '#DCDCDC',
-                    border: 'none',
-                    outline: 'none',
-                  }}
                 />
               )}
             />
@@ -143,3 +146,5 @@ const Review = () => {
 };
 
 export default Review;
+
+Review.is_teacher = true;

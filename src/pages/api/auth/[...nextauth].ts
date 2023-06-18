@@ -75,6 +75,8 @@ export default NextAuth({
         token.username = user.username;
         // @ts-ignore
         token.id = user.id;
+        // @ts-ignore
+        token.is_teacher = user.is_teacher;
       }
       return token;
     },
@@ -83,7 +85,7 @@ export default NextAuth({
       session.access = token.access;
       session.refresh = token.refresh;
       // @ts-ignore
-      session.user.is_author = token.is_author;
+      session.user.is_teacher = token.is_teacher;
       // @ts-ignore
       session.user.email = token.email;
       // @ts-ignore

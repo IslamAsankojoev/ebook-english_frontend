@@ -7,8 +7,11 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { NextPageAuth } from '@/types/auth.types';
+import useRole from '@/hooks/useRole';
 
-const LevelPage = () => {
+const LevelPage: NextPageAuth = () => {
+  const { isTeacher } = useRole();
   const { data: testTypes, refetch } = useQuery('tests', TestTypeService.findAll, {
     select: (data: ITestTypes[]) => data,
   });
@@ -46,23 +49,26 @@ const LevelPage = () => {
       <Stack
         sx={{
           m: '0 auto',
-          width: 'fit-content',
+          width: '500px',
+          maxWidth: '90%',
         }}
       >
-        <Stack direction="row" alignItems="center" justifyContent="center" display="flex">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} label="Тест" variant="filled" fullWidth />
-              )}
-            />
-            <Button type="submit" variant="contained" fullWidth>
-              Добавить тест
-            </Button>
-          </form>
-        </Stack>
+        {isTeacher && (
+          <Stack direction="row" alignItems="center" justifyContent="center" display="flex">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => (
+                  <TextField {...field} label="Тест" variant="filled" fullWidth />
+                )}
+              />
+              <Button type="submit" variant="contained" fullWidth>
+                Добавить тест
+              </Button>
+            </form>
+          </Stack>
+        )}
         <br />
         <Stack
           direction="column"
@@ -99,18 +105,20 @@ const LevelPage = () => {
                 }}
               >
                 <Typography variant="h6">{test.name}</Typography>
-                <IconButton
-                  onClick={() => {
-                    // @ts-ignore
-                    deleteTest(test.id);
-                  }}
-                  color="error"
-                  sx={{
-                    boxShadow: 'none',
-                  }}
-                >
-                  <DeleteForeverIcon />
-                </IconButton>
+                {isTeacher && (
+                  <IconButton
+                    onClick={() => {
+                      // @ts-ignore
+                      deleteTest(test.id);
+                    }}
+                    color="error"
+                    sx={{
+                      boxShadow: 'none',
+                    }}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                )}
               </Link>
             </Stack>
           ))}
@@ -121,3 +129,5 @@ const LevelPage = () => {
 };
 
 export default LevelPage;
+
+LevelPage.is_auth = true;

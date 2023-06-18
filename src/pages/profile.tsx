@@ -1,12 +1,13 @@
 import { IUser, UserService } from '@/api/user.service';
 import Layout from '@/components/Layout';
 import useTypedSession from '@/hooks/useTypedSession';
+import { NextPageAuth } from '@/types/auth.types';
 import { Avatar, Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useMutation, useQuery } from 'react-query';
 
-const Profile = () => {
+const Profile: NextPageAuth = () => {
   const { data: session } = useTypedSession();
   const router = useRouter();
 
@@ -119,3 +120,5 @@ const Profile = () => {
 };
 
 export default Profile;
+
+Profile.is_auth = true;

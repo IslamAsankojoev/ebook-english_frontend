@@ -5,6 +5,7 @@ import { IQuestion, QuestionService } from '@/api/question.service';
 import { ITestTypes, TestTypeService } from '@/api/testType.service';
 import Layout from '@/components/Layout';
 import useTypedSession from '@/hooks/useTypedSession';
+import { NextPageAuth } from '@/types/auth.types';
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid, Stack, TextField, Typography } from '@mui/material';
 import React from 'react';
@@ -12,7 +13,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import AsyncSelect from 'react-select/async';
 
-const CreateQuestion = () => {
+const CreateQuestion: NextPageAuth = () => {
   const { data: session } = useTypedSession();
   const {
     data: dictionary,
@@ -205,3 +206,5 @@ const CreateQuestion = () => {
 };
 
 export default CreateQuestion;
+
+CreateQuestion.is_auth = true;

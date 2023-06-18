@@ -3,6 +3,7 @@ import { IQuestion, QuestionService } from '@/api/question.service';
 import { ITestTypes, TestTypeService } from '@/api/testType.service';
 import { TestingService } from '@/api/testing.service';
 import Layout from '@/components/Layout';
+import { NextPageAuth } from '@/types/auth.types';
 import {
   Button,
   FormControl,
@@ -18,7 +19,7 @@ import React, { ChangeEvent, SyntheticEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 
-const LevelPage = () => {
+const LevelPage: NextPageAuth = () => {
   const router = useRouter();
   const { data: questions, refetch } = useQuery(
     'questions',
@@ -143,3 +144,5 @@ const LevelPage = () => {
 };
 
 export default LevelPage;
+
+LevelPage.is_auth = true;

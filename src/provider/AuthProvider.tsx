@@ -17,12 +17,6 @@ const AuthProvider: FC<any> = ({ children, Component: { is_auth, is_teacher, is_
     (async () => {
       try {
         if (is_auth && !isAuth) signOut();
-        // if (
-        // 	(is_auth && !!isAuth) ||
-        // 	(is_author && !!isAuth)
-        // ) {
-
-        // }
       } catch (e) {
         signOut();
       }

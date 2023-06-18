@@ -2,13 +2,14 @@ import axiosInstance from '@/api/axios.config';
 import { DictionaryService, IWord } from '@/api/dictionary.service';
 import Layout from '@/components/Layout';
 import useTypedSession from '@/hooks/useTypedSession';
+import { NextPageAuth } from '@/types/auth.types';
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid, Stack, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 
-const Dictionary = () => {
+const Dictionary: NextPageAuth = () => {
   const { data: session } = useTypedSession();
   const {
     data: dictionary,
@@ -74,7 +75,7 @@ const Dictionary = () => {
             <TextField {...field} label="Описание" variant="filled" fullWidth multiline rows={4} />
           )}
         />
-        <LoadingButton loading={createLoading} type="submit">
+        <LoadingButton loading={createLoading} type="submit" variant="contained">
           Создать
         </LoadingButton>
       </form>
@@ -109,3 +110,5 @@ const Dictionary = () => {
 };
 
 export default Dictionary;
+
+Dictionary.is_auth = true;

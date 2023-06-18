@@ -56,7 +56,7 @@ const pages: IRoute[] = [
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Layout: FC<LayoutProps> = ({ children, title = 'Страница' }) => {
-  const { isAuth } = useRole();
+  const { isAuth, isTeacher } = useRole();
   const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -104,7 +104,8 @@ const Layout: FC<LayoutProps> = ({ children, title = 'Страница' }) => {
                 textDecoration: 'none',
               }}
             >
-              E-Book - {title}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="" width={100} />
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -136,11 +137,16 @@ const Layout: FC<LayoutProps> = ({ children, title = 'Страница' }) => {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page: IRoute) => (
-                  <MenuItem key={page.href} onClick={() => handleCloseNavMenu(page)}>
-                    <Typography textAlign="center">{page.title}</Typography>
-                  </MenuItem>
-                ))}
+                {pages.map((page: IRoute) => {
+                  if (page.href === '/create-question' && !isTeacher) return null;
+                  if (page.href === '/profile' && !isAuth) return null;
+
+                  return (
+                    <MenuItem key={page.href} onClick={() => handleCloseNavMenu(page)}>
+                      <Typography textAlign="center">{page.title}</Typography>
+                    </MenuItem>
+                  );
+                })}
               </Menu>
             </Box>
             <Typography
@@ -162,11 +168,15 @@ const Layout: FC<LayoutProps> = ({ children, title = 'Страница' }) => {
               <Typography variant="h5"> {title}</Typography>
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button key={page.href} onClick={() => handleCloseNavMenu(page)}>
-                  {page.title}
-                </Button>
-              ))}
+              {pages.map((page) => {
+                if (page.href === '/create-question' && !isTeacher) return null;
+                if (page.href === '/profile' && !isAuth) return null;
+                return (
+                  <Button key={page.href} onClick={() => handleCloseNavMenu(page)}>
+                    {page.title}
+                  </Button>
+                );
+              })}
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
